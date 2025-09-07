@@ -19,6 +19,10 @@ if st.button('予定を追加'):
         # 新しい予定をセッションステートに追加
         st.session_state['schedule_data'].append({'時間': new_time, '予定': new_task})
         st.success('新しい予定が追加されました！')
+
+        # 「寝る」や「就寝」というキーワードが含まれているかチェック
+        if '寝る' in new_task or '就寝' in new_task:
+            st.balloons()
     else:
         st.error('時間と予定の両方を入力してください。')
 
