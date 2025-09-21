@@ -83,16 +83,22 @@ schedule_df = pd.DataFrame(st.session_state['schedule_data'])
 if not schedule_df.empty:
     st.table(schedule_df)
 
+    if language =="日本語":
+        key_time = '時間'
+        key_sche = '予定'
+    else:
+        key_time = 'time'
+        key_sche = 'schedule' 
     # 削除または修正する行を選択
-    selected_index = st.selectbox(select_label, range(len(schedule_df)), format_func=lambda x: f"{schedule_df.iloc[x]['時間']} - {schedule_df.iloc[x]['予定']}", index=0)
+    selected_index = st.selectbox(select_label, range(len(schedule_df)), format_func=lambda x: f"{schedule_df.iloc[x][key_time]} - {schedule_df.iloc[x][key_sche]}", index=0)
 
     # 選択した予定の編集
-    edit_time = st.text_input(edit_time_label, value=schedule_df.iloc[selected_index]['時間'])
-    edit_task = st.text_input(edit_task_label, value=schedule_df.iloc[selected_index]['予定'])
+    edit_time = st.text_input(edit_time_label, value=schedule_df.iloc[selected_index][key_time])
+    edit_task = st.text_input(edit_task_label, value=schedule_df.iloc[selected_index][key_sche])
 
     # 修正ボタン
     if st.button(edit_button):
-        st.session_state['schedule_data'][selected_index] = {'時間': to_half_width(edit_time), '予定': edit_task}
+        st.session_state['schedule_data'][selected_index] = {key_time: to_half_width(edit_time), key_sche: edit_task}
         st.success(success_edit)
 
     # 削除ボタン
